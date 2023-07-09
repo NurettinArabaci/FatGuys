@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3529766655162418647}
+  - component: {fileID: 3956539648691282662}
   m_Layer: 0
   m_Name: Target
   m_TagString: Untagged
@@ -25,13 +26,25 @@ Transform:
   m_GameObject: {fileID: 4303067118423367533}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -23.33}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7707119230250430701}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3956539648691282662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4303067118423367533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53bf0b925c67044de9d1e2c5ad715689, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4706741811845563151
 GameObject:
   m_ObjectHideFlags: 0
@@ -43,6 +56,7 @@ GameObject:
   - component: {fileID: 7707119230250430701}
   - component: {fileID: 1040748397504082477}
   - component: {fileID: 6149412603668335238}
+  - component: {fileID: 6668683830806191353}
   m_Layer: 0
   m_Name: Cylinder.001
   m_TagString: Untagged
@@ -57,14 +71,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4706741811845563151}
-  m_LocalRotation: {x: -0.4774378, y: 0.5215872, z: 0.52158713, w: 0.47743776}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 100, y: 100, z: 100}
-  m_ConstrainProportionsScale: 0
+  m_LocalRotation: {x: 0, y: 0.7933534, z: 0.6087614, w: 0}
+  m_LocalPosition: {x: -0, y: 0.146, z: -0.095}
+  m_LocalScale: {x: 30.000002, y: 30.000002, z: 30.000002}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 3529766655162418647}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 95.061}
+  m_LocalEulerAnglesHint: {x: -105, y: 0, z: 180}
 --- !u!33 &1040748397504082477
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -116,3 +130,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &6668683830806191353
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4706741811845563151}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -7387706064836869012, guid: 87560454ed2ab47ef99dd52bb35ed222, type: 3}

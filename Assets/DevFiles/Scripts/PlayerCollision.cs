@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
-public class PlayerCollision : Touchable
+public class PlayerCollision : Touchable, IPushable
 {
     [SerializeField] private int force = 1000;
 
@@ -12,30 +11,38 @@ public class PlayerCollision : Touchable
 
     private void OnCollisionEnter(Collision coll)
     {
-        if (coll.transform.TryGetComponent(out Touchable touchable))
+        if (coll.transform.TryGetComponent(out ICollectable collectable))
         {
-            touchable.OnTouch();
-            OnPushed(coll);
-            touchable.Collected(this);
+            collectable.Collected(this);
+            OnCollected();
+        }
+
+        if(coll.transform.TryGetComponent(out IPushable pusher))
+        {
+            OnPush(coll, pusher.Force);
         }
 
     }
 
-    public override void OnTouch()
+    void OnCollected()
     {
-        GetComponent<NavMeshAgent>().enabled = false;
-
-
+        Rb.mass += 0.1f;
+        transform.localScale += Vector3.one / 5;
+        Force += 200;
     }
 
-    public void OnPushed(Collision coll)
-    {
-        coll.transform.GetComponent<Rigidbody>().AddForce(PushPoint(coll) * force);
-    }
 
     Vector3 PushPoint(Collision coll)
     {
         Vector3 pos = coll.transform.position;
-        return new Vector3(pos.x - coll.GetContact(0).point.x, 0, pos.z - coll.GetContact(0).point.z);
+        Vector3 _point = coll.GetContact(0).point;
+        return new Vector3(_point.x - pos.x, 0, _point.z - pos.z);
+    }
+
+
+
+    public void OnPush(Collision coll,int force)
+    {
+        Rb.AddForce(PushPoint(coll) * force);
     }
 }
