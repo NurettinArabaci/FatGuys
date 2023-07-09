@@ -9,8 +9,6 @@ public class GameManager : MonoSingleton<GameManager>
     {
         base.Awake();
         GameStateEvent.OnChangeGameState += OnChangeGameState;
-
-        DOTween.SetTweensCapacity(200000, 200);
     }
 
     private void Start()
@@ -28,12 +26,12 @@ public class GameManager : MonoSingleton<GameManager>
                 HandleBegin();
                 break;
 
-            case GameState.Play:
-                HandlePlay();
+            case GameState.Prepare:
+                GameStateEvent.Fire_OnPrepareGame();
                 break;
 
-            case GameState.PopUp:
-                HandlePopUp();
+            case GameState.Play:
+                GameStateEvent.Fire_OnPlayGame();
                 break;
 
             default:
@@ -45,20 +43,9 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void HandleBegin()
     {
-        UIManager.Instance.StartPanelActive(true);
 
     }
 
-    public void HandlePlay()
-    {
-        Time.timeScale = 1;
-        UIManager.Instance.StartPanelActive(false);
-    }
-
-    public void HandlePopUp()
-    {
-        Time.timeScale = 0;
-    }
 
 
     private void OnDisable()
@@ -71,7 +58,7 @@ public class GameManager : MonoSingleton<GameManager>
 public enum GameState
 {
     Begin,
+    Prepare,
     Play,
-    PopUp
 }
 

@@ -4,14 +4,10 @@ using UnityEngine;
 
 public class Collectable : Touchable, ICollectable
 {
-
     public void Collected(Touchable touchable)
     {
-        
-
         Destroy(gameObject);
 
-        
     }
 
 

@@ -4,35 +4,58 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    [SerializeField] Touchable prefab;
+    [SerializeField] Touchable _prefab;
+
+    [SerializeField] float _radius;
+    [SerializeField] float _height = 1;
 
     bool start = false;
 
-    float timer;
+    float RandomTimer()
+    {
+        return Random.Range(2, 8);
+    }
+
+    Vector3 RandomSpawnPoint()
+    {
+        float distance = Random.Range(0, _radius);
+        float xAxis = Mathf.Sqrt(_radius*_radius - distance*distance);
+        float yAxis = distance;
+
+        return new Vector3(Random.Range(-xAxis, xAxis), _height, Random.Range(-yAxis, yAxis));
+    }
+
+    private void Awake()
+    {
+        GameStateEvent.OnPlayGame += StartGame;
+    }
+
     IEnumerator Start()
     {
-        Debug.Log("start false");
-        yield return new WaitForSeconds(2);
-        start = true;
-        Debug.Log("start true");
+        GameStateEvent.Fire_OnPlayGame();
         yield return new WaitUntil(()=>start);
-        timer = Random.Range(1, 5);
+
+        float timer = RandomTimer();
         while (timer > 0)
         {
             timer -= Time.deltaTime;
-
-
             yield return null;
         }
-        Debug.Log("Naber");
+
+        Instantiate(_prefab, RandomSpawnPoint(), Quaternion.identity, transform);
+
         StartCoroutine(Start());
         
 
     }
-    /*
-    IEnumerator RandomTimeInstantiate()
+
+    void StartGame()
     {
-        
-        StartCoroutine(RandomTimeInstantiate());
-    }*/
+        start = true;
+    }
+
+    private void OnDisable()
+    {
+        GameStateEvent.OnPlayGame -= StartGame;
+    }
 }
