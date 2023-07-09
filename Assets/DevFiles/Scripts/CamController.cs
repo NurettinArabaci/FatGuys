@@ -2,22 +2,28 @@ using UnityEngine;
 
 public class CamController : MonoBehaviour
 {
-    [SerializeField] Transform target;
-    [SerializeField] Vector3 offset = new Vector3(0f, 2f, -10f);
-    [SerializeField] float distanceDamp = 10f;
+    [SerializeField] Transform _target;
+    [SerializeField] Vector3 _offset = new Vector3(0f, 2f, -10f);
+    [SerializeField] float _distanceDamp = 10f;
 
-    Transform mT;
+    private Transform _mT;
 
-    void Awake()
+    private void Awake()
     {
-        mT = transform;
+        _mT = transform;
     }
 
-
-    void LateUpdate()
+    private void LateUpdate()
     {
-        Vector3 toPos = new Vector3(target.position.x,0,target.position.z) + offset;
-        Vector3 curPos = Vector3.MoveTowards(mT.position, toPos, distanceDamp * Time.deltaTime);
-        mT.position = curPos;
+        FollowTarget();
     }
+
+    private void FollowTarget()
+    {
+        Vector3 toPos = new Vector3(_target.position.x, 0, _target.position.z) + _offset;
+        Vector3 curPos = Vector3.MoveTowards(_mT.position, toPos, _distanceDamp * Time.deltaTime);
+        _mT.position = curPos;
+    }
+
+    
 }

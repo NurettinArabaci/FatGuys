@@ -18,9 +18,6 @@ public class Collectable : Touchable
         
     }
 
-    public override void OnTouch()
-    {
-
-    }
+    public override void OnTouch(){}
 
 }
