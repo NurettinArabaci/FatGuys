@@ -1,5 +1,4 @@
 using UnityEngine;
-using DG.Tweening;
 
 public class GameManager : MonoSingleton<GameManager>
 {
@@ -23,7 +22,7 @@ public class GameManager : MonoSingleton<GameManager>
         switch (newState)
         {
             case GameState.Begin:
-                HandleBegin();
+                GameStateEvent.Fire_OnBeginGame();
                 break;
 
             case GameState.Prepare:
@@ -34,16 +33,17 @@ public class GameManager : MonoSingleton<GameManager>
                 GameStateEvent.Fire_OnPlayGame();
                 break;
 
+            case GameState.Win:
+                GameStateEvent.Fire_OnWinGame();
+                break;
+
+            case GameState.Lose:
+                GameStateEvent.Fire_OnLoseGamee();
+                break;
+
             default:
                 break;
         }
-    }
-
-
-
-    public void HandleBegin()
-    {
-
     }
 
 
@@ -60,5 +60,7 @@ public enum GameState
     Begin,
     Prepare,
     Play,
+    Win,
+    Lose
 }
 

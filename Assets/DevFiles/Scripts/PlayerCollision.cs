@@ -72,6 +72,11 @@ public class PlayerCollision : Touchable, IPushable
 
     public override void OnDie()
     {
+        if(GetComponent<PlayerController>().IsMine)
+        {
+            GameStateEvent.Fire_OnChangeGameState(GameState.Lose);
+        }
+
         if (collidePlayer)
         {
             collidePlayer.AddScore(Force / 4); ;

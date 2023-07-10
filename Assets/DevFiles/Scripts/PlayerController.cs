@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     private Transform _targetParent;
     private Rigidbody _rb;
     private List<Touchable> _nearestList = new List<Touchable>();
+    private Animator _anim;
     #endregion
 
     #region Properties
@@ -27,12 +28,23 @@ public class PlayerController : MonoBehaviour
         get => _speed;
         set => _speed = value;
     }
+
+    public bool IsMine
+    {
+        get => _isMine;
+    }
+
     #endregion
+
+    const string Run = "run";
 
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         _targetParent = _target.parent;
+        _anim = GetComponentInChildren<Animator>();
+
+        GameStateEvent.OnPlayGame += OnPlayGame;
     }
 
     private void Start()
@@ -42,9 +54,15 @@ public class PlayerController : MonoBehaviour
         _target.gameObject.SetActive(_isMine);
     }
 
+    void OnPlayGame()
+    {
+        _anim.SetTrigger(Run);
+    }
 
     private void FixedUpdate()
     {
+        if (GameManager.Instance.gameState != GameState.Play) return;
+
         VelocityControl();
 
         Movement();
@@ -105,4 +123,8 @@ public class PlayerController : MonoBehaviour
         return nearest;
     }
 
+    private void OnDisable()
+    {
+        GameStateEvent.OnPlayGame -= OnPlayGame;
+    }
 }

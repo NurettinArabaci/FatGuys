@@ -32,7 +32,6 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator Start()
     {
-        GameStateEvent.Fire_OnPlayGame();
         yield return new WaitUntil(()=>start);
 
         float timer = RandomTimer();
