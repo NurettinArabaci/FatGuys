@@ -20,6 +20,8 @@ public class CamController : MonoBehaviour
 
     private void FollowTarget()
     {
+        if (!_target) return;
+
         Vector3 toPos = new Vector3(_target.position.x, 0, _target.position.z) + _offset;
         Vector3 curPos = Vector3.MoveTowards(_mT.position, toPos, _distanceDamp * Time.deltaTime);
         _mT.position = curPos;

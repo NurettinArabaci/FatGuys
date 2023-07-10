@@ -1,21 +1,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
     #region Serialized Variables
 
+    [SerializeField] bool _isMine = false;
     [SerializeField] float _speed = 1;
     [SerializeField] Transform _target;
-    [SerializeField] bool _isMine = false;
+    [SerializeField] GameObject _goldCrown;
     #endregion
 
     #region Private Variables
 
     private InputController _input;
-    private NavMeshAgent _navmesh;
     private Transform _targetParent;
     private Rigidbody _rb;
     private List<Touchable> _nearestList = new List<Touchable>();
@@ -33,13 +32,12 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-        _navmesh = GetComponent<NavMeshAgent>();
         _targetParent = _target.parent;
     }
 
     private void Start()
     {
-        _input = InputController.instance;
+        _input = InputController.Instance;
 
         _target.gameObject.SetActive(_isMine);
     }
@@ -47,41 +45,25 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        VelocityControl();
+
+        Movement();
+
+        
+    }
+
+    private void Movement()
+    {
         if (_isMine)
         {
             _rb.position = Vector3.MoveTowards(_rb.position, _target.position, Time.fixedDeltaTime * _speed);
             _targetParent.rotation = Quaternion.LookRotation(new Vector3(_input.Horizontal, 0, _input.Vertical));
             _rb.rotation = Quaternion.Lerp(transform.rotation, _targetParent.rotation, Time.fixedDeltaTime * 10);
+            return;
         }
 
-        else
-        {
-            _rb.position = Vector3.MoveTowards(_rb.position, GetNearest(), Time.fixedDeltaTime * _speed);
-
-            _rb.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(GetNearest() - transform.position), Time.fixedDeltaTime * 4);
-
-        }
-
-        VelocityControl();
-    }
-
-    private void MovementAI()
-    {
-        if (_navmesh.enabled)
-        {
-            _navmesh.destination = _isMine ? _target.position : GetNearest();
-        }
-
-        if (_isMine)
-        {
-            _targetParent.rotation = Quaternion.LookRotation(new Vector3(_input.Horizontal, 0, _input.Vertical));
-            transform.rotation = Quaternion.Lerp(transform.rotation, _targetParent.rotation, Time.deltaTime * 10);
-        }
-
-        if (_rb.velocity.magnitude <= 0.2f)
-        {
-            _navmesh.enabled = true;
-        }
+        _rb.position = Vector3.MoveTowards(_rb.position, GetNearest(), Time.fixedDeltaTime * _speed);
+        _rb.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(GetNearest() - transform.position), Time.fixedDeltaTime * 4);
     }
 
     private void VelocityControl()

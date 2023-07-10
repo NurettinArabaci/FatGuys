@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class Pusher : MonoBehaviour, IPushable
@@ -11,7 +12,8 @@ public class Pusher : MonoBehaviour, IPushable
 
     public void OnPush(Collision coll, int force)
     {
-        //transform.localScale += Vector3.one;
+        transform.DOScale(transform.localScale * 1.2f, 0.1f).OnComplete(() =>
+            transform.DOScale(transform.localScale / 1.2f, 0.1f));
     }
 
     

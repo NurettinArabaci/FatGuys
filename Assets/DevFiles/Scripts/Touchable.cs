@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public abstract class Touchable : MonoBehaviour
@@ -11,4 +12,6 @@ public abstract class Touchable : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
     }
+
+    public virtual void OnDie(){}
 }
