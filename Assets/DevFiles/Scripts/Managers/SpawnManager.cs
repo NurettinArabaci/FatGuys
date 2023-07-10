@@ -13,7 +13,7 @@ public class SpawnManager : MonoBehaviour
 
     float RandomTimer()
     {
-        return Random.Range(2, 8);
+        return Random.Range(1, 4);
     }
 
     Vector3 RandomSpawnPoint()
