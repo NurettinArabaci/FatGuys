@@ -1,13 +1,28 @@
 using UnityEngine;
+using System.Collections;
 
 public class GameManager : MonoSingleton<GameManager>
 {
     public GameState gameState;
 
+    [SerializeField] private float _countDownTime = 90;
+    public float CountDownTime => _countDownTime;
+
     protected override void Awake()
     {
         base.Awake();
         GameStateEvent.OnChangeGameState += OnChangeGameState;
+    }
+
+    IEnumerator CountDown()
+    {
+        while(CountDownTime>0)
+        {
+            _countDownTime -= Time.deltaTime;
+            yield return null;
+        }
+
+        OnChangeGameState(GameState.Lose);
     }
 
     private void Start()
@@ -31,6 +46,7 @@ public class GameManager : MonoSingleton<GameManager>
 
             case GameState.Play:
                 GameStateEvent.Fire_OnPlayGame();
+                StartCoroutine(CountDown());
                 break;
 
             case GameState.Win:
