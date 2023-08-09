@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using TMPro;
 
 public class GameManager : MonoSingleton<GameManager>
 {
@@ -7,6 +8,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     [SerializeField] private float _countDownTime = 90;
     public float CountDownTime => _countDownTime;
+    [SerializeField] TextMeshProUGUI _text;
 
     protected override void Awake()
     {
@@ -16,13 +18,17 @@ public class GameManager : MonoSingleton<GameManager>
 
     IEnumerator CountDown()
     {
-        while(CountDownTime>0)
+        while(CountDownTime>0 && gameState == GameState.Play)
         {
             _countDownTime -= Time.deltaTime;
+            _text.SetText(CountDownTime.ToString("0"));
             yield return null;
         }
 
-        OnChangeGameState(GameState.Lose);
+        if (gameState != GameState.Win)
+            OnChangeGameState(GameState.Lose);
+
+
     }
 
     private void Start()
